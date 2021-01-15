@@ -7,8 +7,12 @@ class Artist(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
 
+    def __init__(self, name):
+        """"""
+        self.name = name
+
     def __repr__(self):
-        return "{}".format(self.name)
+        return "<Artist: {}>".format(self.name)
 
 
 class Album(db.Model):
@@ -17,10 +21,17 @@ class Album(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String)
-    release_date = db.Column(db.String)
+    release_date = db.Column(db.Date)
     publisher = db.Column(db.String)
     media_type = db.Column(db.String)
 
     artist_id = db.Column(db.Integer, db.ForeignKey("artists.id"))
     artist = db.relationship("Artist", backref=db.backref(
         "albums", order_by=id), lazy=True)
+
+    def __init__(self, title, release_date, publisher, media_type):
+        """"""
+        self.title = title
+        self.release_date = release_date
+        self.publisher = publisher
+        self.media_type = media_type
